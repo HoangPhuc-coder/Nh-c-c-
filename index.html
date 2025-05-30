@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <meta name="description"
+        content="Website bán nhạc cụ với các sản phẩm đa dạng như guitar, piano, trống và nhiều hơn nữa.">
+    <meta name="keywords" content="nhạc cụ, guitar, piano, trống, mua sắm nhạc cụ, cửa hàng nhạc cụ">
+    <meta name="author" content="DTAP Music">
+    <meta name="theme-color" content="#4CAF50">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <title>Website Bán Nhạc Cụ</title>
+    <link rel="stylesheet" href="style.css">
+    <link rrel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="comments.css">
+    <link rel="stylesheet" href="staff.css">
+    <style>
+        nav {
+            position: relative; 
+            min-height: 120px;  
+            background-color: #333; 
+        }
+
+        .logo-container{
+            position:absolute;
+            top:20px;
+            left:20px;
+            text-align: center;
+        }
+        .logo {
+            width:80px;
+            height:80px;
+            border-radius:50%;
+            border:2px solid white;
+            object-fit: cover;
+            display:block;
+            margin: 0 auto;
+        }
+        .logo-text{
+            color:rgb(255, 255, 255);
+            font-size:18px;
+            font-weight: bold;
+            margin-top:8px;
+        }
+        h1{
+            text-align:center;
+            color:#f5f1ed;
+            font-size:36px;
+            margin-top:40px;
+            margin-bottom: 20px;
+            margin-left:120px;
+            font-weight:600;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+        }
+        .product-section {
+            background-image: url("nen.jpg");
+            background-size:cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            padding: 40px 20px;
+            color:white; 
+        }
+        h2{
+            font-size:24px;
+            color:#ff6600;
+        }
+
+
+    </style>
+</head>
+
+<body>
+    <!-- Thanh điều hướng -->
+    <nav>
+        <div class="logo-container">
+        <img src="logo1.jpg" alt="DAPT Music Logo" class="logo" >
+        <div class="logo-text">DTAP Music </div>
+        </div>
+        <h1>Khám Phá Âm Thanh - Mua Sắm Nhạc Cụ Chất Lượng</h1>
+        <ul id="navUser">
+            <li><button onclick="showPage('home')">Trang chủ</button></li>
+            <li><button onclick="showPage('cart')">Giỏ hàng</button></li>
+            <li><button id="registerBtn" onclick="showPage('register')">Đăng ký</button></li>
+            <li><button onclick="showPage('login')" id="loginBtn">Đăng nhập</button></li>
+            <li><button onclick="logout()" id="logoutBtn" class="hidden">Đăng xuất</button></li>
+        </ul>
+        <ul id="navAdmin" class="hidden">
+            <li><button onclick="showPage('adminProducts')">QL Sản phẩm</button></li>
+            <li><button onclick="showPage('adminOrders')">QL Đơn hàng</button></li>
+            <li><button onclick="showPage('adminUsers')">QL Người dùng</button></li>
+            <li><button onclick="logoutAdmin()">Đăng xuất</button></li>
+        </ul>
+    </nav>
+    <div class="product-section">
+    <!-- Trang chủ -->
+    <section id="home" class="page active">
+        <h2>Danh sách sản phẩm</h2>
+        <input type="text" id="searchInput" placeholder="Tìm kiếm...">
+        <select id="filterCategory">
+            <option value="">Tất cả</option>
+            <option value="Guitar">Guitar</option>
+            <option value="Piano">Piano</option>
+            <option value="Trống">Trống</option>
+        </select>
+        <input type="number" id="priceMin" placeholder="Giá từ">
+        <input type="number" id="priceMax" placeholder="Đến">
+        <button id="btnAdvancedSearch">Tìm</button>
+        <div id="productList" class="product-grid"></div>
+    </section>
+    </div>
+    <script>
+        function saveUser(e) {
+            e.preventDefault();
+            const name = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+            localStorage.setItem("user", JSON.stringify({ name, email }));
+            alert("Đã lưu người dùng!");
+        }
+    </script>
+
+    <!-- Giỏ hàng -->
+    <section id="cart" class="page">
+        <h2>Giỏ hàng</h2>
+        <div id="cartItems"></div>
+        <button id="checkoutBtn">Thanh toán</button>
+    </section>
+
+    <!-- Thanh toán -->
+    <section id="checkout" class="page">
+        <h2>Thanh toán</h2>
+        <form id="checkoutForm" onsubmit="handleCheckout(event)">
+            <input type="text" id="customerName" placeholder="Họ tên" required />
+            <input type="text" id="customerAddress" placeholder="Địa chỉ" required />
+            <input type="text" id="customerPhone" placeholder="SĐT" required />
+
+            <p><strong>Hình thức thanh toán:</strong></p>
+            <label><input type="radio" name="paymentMethod" value="COD" checked> Thanh toán khi nhận hàng
+                (COD)</label><br />
+            <label><input type="radio" name="paymentMethod" value="Bank"> Chuyển khoản ngân hàng</label><br />
+            <label><input type="radio" name="paymentMethod" value="MoMo"> Ví MoMo</label><br />
+            <label><input type="radio" name="paymentMethod" value="ZaloPay"> ZaloPay</label>
+
+            <div id="bankDetails" class="hidden">
+                <p><strong>Thông tin chuyển khoản:</strong></p>
+                <p>Ngân hàng: Vietcombank</p>
+                <p>Số tài khoản: 0123456789</p>
+                <p>Chủ tài khoản: Công ty TNHH Nhạc Cụ</p>
+            </div>
+
+            <div id="momoDetails" class="hidden">
+                <p><strong>Thông tin Ví MoMo:</strong></p>
+                <p>SĐT: 0987654321</p>
+                <p>Chủ tài khoản: Công ty TNHH Nhạc Cụ</p>
+            </div>
+
+            <div id="zalopayDetails" class="hidden">
+                <p><strong>Thông tin ZaloPay:</strong></p>
+                <p>SĐT: 0987654321</p>
+                <p>Chủ tài khoản: Công ty TNHH Nhạc Cụ</p>
+            </div>
+
+            <h3>Tóm tắt đơn hàng:</h3>
+            <div id="checkoutSummary"></div>
+            <button type="submit">Xác nhận đặt hàng</button>
+        </form>
+    </section>
+
+    <!-- Đăng ký -->
+    <section id="register" class="page">
+        <h2>Đăng ký</h2>
+        <form id="registerForm">
+            <input type="text" id="regUsername" placeholder="Tên đăng nhập" required>
+            <input type="password" id="regPassword" placeholder="Mật khẩu" required>
+            <button type="submit">Đăng ký</button>
+        </form>
+    </section>
+
+    <!-- Đăng nhập -->
+    <section id="login" class="page">
+        <h2>Đăng nhập</h2>
+        <form id="loginForm">
+            <input type="text" id="username" placeholder="Tên đăng nhập" required>
+            <input type="password" id="password" placeholder="Mật khẩu" required>
+            <select id="roleSelect">
+                <option value="user">Người dùng</option>
+                <option value="admin">Quản trị viên</option>
+            </select>
+            <button type="submit">Đăng nhập</button>
+        </form>
+    </section>
+
+    <!-- Quản lý sản phẩm -->
+    <section id="adminProducts" class="page">
+        <h2>Quản lý sản phẩm</h2>
+        <form id="addProductForm">
+            <input type="text" id="newProductName" placeholder="Tên sản phẩm" required>
+            <input type="number" id="newProductPrice" placeholder="Giá" required>
+            <select id="newProductType">
+                <option value="Guitar">Guitar</option>
+                <option value="Piano">Piano</option>
+                <option value="Trống">Trống</option>
+                <option value="Violin">Violin</option>
+                <option value="Sáo">Sáo</option>
+                <option value="Harmonica">Harmonica</option>
+            </select>
+            <input type="text" id="newProductImage" placeholder="URL hình ảnh" required>
+            <textarea id="newProductDescription" placeholder="Mô tả sản phẩm"></textarea>
+            <button type="button" id="btnAddProduct">Thêm</button>
+        </form>
+        <div id="adminProductList"></div>
+    </section>
+
+    <!-- Quản lý đơn hàng -->
+    <section id="adminOrders" class="page hidden">
+        <h2>Quản lý đơn hàng</h2>
+        <table id="orderTable">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Khách hàng</th>
+                    <th>Thông tin</th>
+                    <th>Sản phẩm</th>
+                    <th>Trạng thái</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </section>
+
+
+    <!-- Quản lý người dùng -->
+    <section id="adminUsers" class="page">
+        <h2>Quản lý người dùng</h2>
+        <div id="adminUserList"></div>
+    </section>
+
+
+    <script src="script.js"></script>
+    <script src="admin.js"></script>
+    <script src="data.js"></script>
+    <script src="comments.js"></script>
+    <script src="staff.js"></script>
+    <script>
+        document.querySelectorAll('input[name="paymentMethod"]').forEach(radio => {
+            radio.addEventListener("change", () => {
+                const method = radio.value;
+                document.getElementById("bankDetails").classList.toggle("hidden", method !== "Bank");
+                document.getElementById("momoDetails").classList.toggle("hidden", method !== "MoMo");
+                document.getElementById("zalopayDetails").classList.toggle("hidden", method !== "ZaloPay");
+            });
+        });
+
+        function handleCheckout(e) {
+            e.preventDefault();
+            const name = document.getElementById("customerName").value;
+            const address = document.getElementById("customerAddress").value;
+            const phone = document.getElementById("customerPhone").value;
+            const method = document.querySelector('input[name="paymentMethod"]:checked').value;
+
+            alert(`Cảm ơn ${name}! Bạn đã chọn thanh toán bằng ${method}.`);
+            // Xử lý thêm nếu cần: gửi dữ liệu lên server, lưu localStorage, v.v.
+        }
+    </script>
+    <script>
+        // Hiển thị trang mặc định
+        showPage('home');
+
+        // Lắng nghe sự kiện click cho nút đăng ký
+        document.getElementById('registerBtn').addEventListener('click', () => {
+            showPage('register');
+        });
+
+        // Lắng nghe sự kiện click cho nút đăng nhập
+        document.getElementById('loginBtn').addEventListener('click', () => {
+            showPage('login');
+        });
+
+        // Lắng nghe sự kiện click cho nút đăng xuất
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            logout();
+        });
+        // Lắng nghe sự kiện click cho nút thêm sản phẩm
+        document.getElementById('btnAddProduct').addEventListener('click', () => {
+            const name = document.getElementById('newProductName').value;
+            const price = parseFloat(document.getElementById('newProductPrice').value);
+            const type = document.getElementById('newProductType').value;
+            const image = document.getElementById('newProductImage').value;
+            const description = document.getElementById('newProductDescription').value;
+            addProduct(name, price, type, image, description);
+        });
+    </script>
+
+</body>
+
+</html>
