@@ -1,84 +1,29 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
-    <meta charset="UTF-8">  
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="color-scheme" content="light dark">
     <meta name="description"
         content="Website bán nhạc cụ với các sản phẩm đa dạng như guitar, piano, trống và nhiều hơn nữa.">
     <meta name="keywords" content="nhạc cụ, guitar, piano, trống, mua sắm nhạc cụ, cửa hàng nhạc cụ">
-    <meta name="author" content="DTAP Music">
+    <meta name="author" content="Nhạc Cụ Store">
     <meta name="theme-color" content="#4CAF50">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <title>Website Bán Nhạc Cụ</title>
     <link rel="stylesheet" href="style.css">
-    <link rrel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="admin.css">
     <link rel="stylesheet" href="comments.css">
     <link rel="stylesheet" href="staff.css">
-    <style>
-        nav {
-            position: relative; 
-            min-height: 120px;  
-            background-color: #333; 
-        }
 
-        .logo-container{
-            position:absolute;
-            top:20px;
-            left:20px;
-            text-align: center;
-        }
-        .logo {
-            width:80px;
-            height:80px;
-            border-radius:50%;
-            border:2px solid white;
-            object-fit: cover;
-            display:block;
-            margin: 0 auto;
-        }
-        .logo-text{
-            color:rgb(255, 255, 255);
-            font-size:18px;
-            font-weight: bold;
-            margin-top:8px;
-        }
-        h1{
-            text-align:center;
-            color:#f5f1ed;
-            font-size:36px;
-            margin-top:40px;
-            margin-bottom: 20px;
-            margin-left:120px;
-            font-weight:600;
-            font-family: 'Segoe UI', Tahoma, sans-serif;
-        }
-        .product-section {
-            background-image: url("nen.jpg");
-            background-size:cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            padding: 40px 20px;
-            color:white; 
-        }
-        h2{
-            font-size:24px;
-            color:#ff6600;
-        }
-
-
-    </style>
 </head>
 
 <body>
     <!-- Thanh điều hướng -->
     <nav>
-        <div class="logo-container">
-        <img src="logo1.jpg" alt="DAPT Music Logo" class="logo" >
-        <div class="logo-text">DTAP Music </div>
-        </div>
-        <h1>Khám Phá Âm Thanh - Mua Sắm Nhạc Cụ Chất Lượng</h1>
+        <h1>Nhạc Cụ Store</h1>
         <ul id="navUser">
             <li><button onclick="showPage('home')">Trang chủ</button></li>
             <li><button onclick="showPage('cart')">Giỏ hàng</button></li>
@@ -93,7 +38,7 @@
             <li><button onclick="logoutAdmin()">Đăng xuất</button></li>
         </ul>
     </nav>
-    <div class="product-section">
+
     <!-- Trang chủ -->
     <section id="home" class="page active">
         <h2>Danh sách sản phẩm</h2>
@@ -109,7 +54,6 @@
         <button id="btnAdvancedSearch">Tìm</button>
         <div id="productList" class="product-grid"></div>
     </section>
-    </div>
     <script>
         function saveUser(e) {
             e.preventDefault();
@@ -294,5 +238,6 @@
     </script>
 
 </body>
+
 
 </html>
