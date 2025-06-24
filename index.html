@@ -1,243 +1,444 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="color-scheme" content="light dark">
-    <meta name="description"
-        content="Website bán nhạc cụ với các sản phẩm đa dạng như guitar, piano, trống và nhiều hơn nữa.">
-    <meta name="keywords" content="nhạc cụ, guitar, piano, trống, mua sắm nhạc cụ, cửa hàng nhạc cụ">
-    <meta name="author" content="Nhạc Cụ Store">
-    <meta name="theme-color" content="#4CAF50">
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <title>Website Bán Nhạc Cụ</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="admin.css">
-    <link rel="stylesheet" href="comments.css">
-    <link rel="stylesheet" href="staff.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Inter:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
 
-</head>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
 
-<body>
-    <!-- Thanh điều hướng -->
-    <nav>
-        <h1>Nhạc Cụ Store</h1>
-        <ul id="navUser">
-            <li><button onclick="showPage('home')">Trang chủ</button></li>
-            <li><button onclick="showPage('cart')">Giỏ hàng</button></li>
-            <li><button id="registerBtn" onclick="showPage('register')">Đăng ký</button></li>
-            <li><button onclick="showPage('login')" id="loginBtn">Đăng nhập</button></li>
-            <li><button onclick="logout()" id="logoutBtn" class="hidden">Đăng xuất</button></li>
-        </ul>
-        <ul id="navAdmin" class="hidden">
-            <li><button onclick="showPage('adminProducts')">QL Sản phẩm</button></li>
-            <li><button onclick="showPage('adminOrders')">QL Đơn hàng</button></li>
-            <li><button onclick="showPage('adminUsers')">QL Người dùng</button></li>
-            <li><button onclick="logoutAdmin()">Đăng xuất</button></li>
-        </ul>
-    </nav>
-
-    <!-- Trang chủ -->
-    <section id="home" class="page active">
-        <h2>Danh sách sản phẩm</h2>
-        <input type="text" id="searchInput" placeholder="Tìm kiếm...">
-        <select id="filterCategory">
-            <option value="">Tất cả</option>
-            <option value="Guitar">Guitar</option>
-            <option value="Piano">Piano</option>
-            <option value="Trống">Trống</option>
-        </select>
-        <input type="number" id="priceMin" placeholder="Giá từ">
-        <input type="number" id="priceMax" placeholder="Đến">
-        <button id="btnAdvancedSearch">Tìm</button>
-        <div id="productList" class="product-grid"></div>
-    </section>
-    <script>
-        function saveUser(e) {
-            e.preventDefault();
-            const name = document.getElementById("name").value;
-            const email = document.getElementById("email").value;
-            localStorage.setItem("user", JSON.stringify({ name, email }));
-            alert("Đã lưu người dùng!");
-        }
-    </script>
-
-    <!-- Giỏ hàng -->
-    <section id="cart" class="page">
-        <h2>Giỏ hàng</h2>
-        <div id="cartItems"></div>
-        <button id="checkoutBtn">Thanh toán</button>
-    </section>
-
-    <!-- Thanh toán -->
-    <section id="checkout" class="page">
-        <h2>Thanh toán</h2>
-        <form id="checkoutForm" onsubmit="handleCheckout(event)">
-            <input type="text" id="customerName" placeholder="Họ tên" required />
-            <input type="text" id="customerAddress" placeholder="Địa chỉ" required />
-            <input type="text" id="customerPhone" placeholder="SĐT" required />
-
-            <p><strong>Hình thức thanh toán:</strong></p>
-            <label><input type="radio" name="paymentMethod" value="COD" checked> Thanh toán khi nhận hàng
-                (COD)</label><br />
-            <label><input type="radio" name="paymentMethod" value="Bank"> Chuyển khoản ngân hàng</label><br />
-            <label><input type="radio" name="paymentMethod" value="MoMo"> Ví MoMo</label><br />
-            <label><input type="radio" name="paymentMethod" value="ZaloPay"> ZaloPay</label>
-
-            <div id="bankDetails" class="hidden">
-                <p><strong>Thông tin chuyển khoản:</strong></p>
-                <p>Ngân hàng: Vietcombank</p>
-                <p>Số tài khoản: 0123456789</p>
-                <p>Chủ tài khoản: Công ty TNHH Nhạc Cụ</p>
+    <link rel="stylesheet" href="./assets/css/style.css" />
+    <link href="./assets/img/icon.jpg" rel="icon" />
+    <title>Fumo Shop</title>
+  </head>
+  <body>
+    <header class="header">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#"></a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-md-auto gap-2">
+              <li class="nav-item rounded">
+                <a class="nav-link active" aria-current="page" href="#"
+                  ><i class="bi bi-house-fill me-2"></i>Home</a
+                >
+              </li>
+              <li class="nav-item rounded">
+                <a class="nav-link" href="#"
+                  ><i class="bi bi-people-fill me-2"></i>About</a
+                >
+              </li>
+              <li class="nav-item rounded">
+                <a class="nav-link" href="#"
+                  ><i class="bi bi-telephone-fill me-2"></i>Contact</a
+                >
+              </li>
+              <div class="rounded">
+                <div class="input-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Fumo you want"
+                    aria-label="Fumo you want"
+                    aria-describedby="button-addon2"
+                  />
+                  <button
+                    class="btn btn-outline-secondary"
+                    type="button"
+                    id="button-addon2"
+                  >
+                    Search
+                  </button>
+                </div>
+              </div>
+              <li class="nav-item dropdown rounded">
+                <a
+                  class="nav-link dropdown-toggle"
+                  href="#"
+                  id="navbarDropdown"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                  ><i class="bi bi-person-fill me-2"></i>Profile</a
+                >
+                <ul
+                  class="dropdown-menu dropdown-menu-end"
+                  aria-labelledby="navbarDropdown"
+                >
+                  <li><a class="dropdown-item" href="#">Account</a></li>
+                  <li><a class="dropdown-item" href="#">My Cart</a></li>
+                  <li>
+                    <hr class="dropdown-divider" />
+                  </li>
+                  <li><a class="dropdown-item" href="#">Logout</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <!-- <div class="vh-100 d-flex justify-content-center align-items-center">
+        <h2>Main Content</h2>
+      </div>
+      <div class="bg-dark text-white">
+        <p class="text-center p-4 m-0">Footer Content</p>
+      </div> -->
+    </header>
+    <main>
+      <section class="slider">
+        <div id="carouselExampleCaptions" class="carousel slide">
+          <div class="carousel-indicators">
+            <button
+              type="button"
+              data-bs-target="#carouselExampleCaptions"
+              data-bs-slide-to="0"
+              class="active"
+              aria-current="true"
+              aria-label="Slide 1"
+            ></button>
+            <button
+              type="button"
+              data-bs-target="#carouselExampleCaptions"
+              data-bs-slide-to="1"
+              aria-label="Slide 2"
+            ></button>
+            <button
+              type="button"
+              data-bs-target="#carouselExampleCaptions"
+              data-bs-slide-to="2"
+              aria-label="Slide 3"
+            ></button>
+          </div>
+          <div class="carousel-inner">
+            <div class="carousel-item active c-item">
+              <img
+                src="./assets/img/header.png"
+                class="d-block w-100 c-img"
+                alt="..."
+              />
+              <div class="carousel-caption top-0 mt-5">
+                <h1 class="display-2 fw-bolder mt-3 pt-5 text-uppercase">
+                  Best Fumo Shop For You
+                </h1>
+                <p class="mt-5 fs-3">
+                  You are a passionate fan of Touhou. Are you looking for Fumo
+                  for yourself? Come to us to get the best Fumo at reasonable
+                  prices. We are committed to bringing you the best products.
+                </p>
+                <a href="#" class="btn-main btn--big mt-4">Explore</a>
+              </div>
             </div>
-
-            <div id="momoDetails" class="hidden">
-                <p><strong>Thông tin Ví MoMo:</strong></p>
-                <p>SĐT: 0987654321</p>
-                <p>Chủ tài khoản: Công ty TNHH Nhạc Cụ</p>
+            <div class="carousel-item c-item">
+              <img
+                src="./assets/img/slider1.png"
+                class="d-block w-100 c-img"
+                alt="..."
+              />
+              <div class="carousel-caption top-0 mt-5">
+                <h1 class="display-2 fw-bolder mt-3 pt-5 text-uppercase">
+                  Feeling very satisfied
+                </h1>
+                <p class="mt-5 fs-3">
+                  We have received a lot of positive feedback from customers.
+                  They are very satisfied with our products. And we are very
+                  happy to receive that feedback. We will try to improve our
+                  products and services.
+                </p>
+                <a href="#" class="btn-main btn--big mt-4">Buy Now</a>
+              </div>
             </div>
-
-            <div id="zalopayDetails" class="hidden">
-                <p><strong>Thông tin ZaloPay:</strong></p>
-                <p>SĐT: 0987654321</p>
-                <p>Chủ tài khoản: Công ty TNHH Nhạc Cụ</p>
+            <div class="carousel-item c-item">
+              <img
+                src="./assets/img/slider3.png"
+                class="d-block w-100 c-img"
+                alt="..."
+              />
+              <div class="carousel-caption top-0 mt-5">
+                <h1 class="display-2 fw-bolder mt-3 pt-5 text-uppercase">
+                  What do you think?
+                </h1>
+                <p class="mt-5 fs-3">
+                  We are very happy to receive your feedback. Please send us
+                  your feedback. We will try to improve our products and
+                  services. We hope to receive your feedback. Thank you very
+                  much.
+                </p>
+                <a href="#" class="btn-main btn--big mt-4">Feedback</a>
+              </div>
             </div>
+          </div>
+          <button
+            class="carousel-control-prev"
+            type="button"
+            data-bs-target="#carouselExampleCaptions"
+            data-bs-slide="prev"
+          >
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button
+            class="carousel-control-next"
+            type="button"
+            data-bs-target="#carouselExampleCaptions"
+            data-bs-slide="next"
+          >
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+      </section>
+      <div class="container">
+        <div class="row">
+          <div class="col-3">
+            <h2 class="text-center mt-5 mb-5"></h2>
+          </div>
+          <div class="col-9">
+            <h2 class="text-center mt-5 mb-5 fw-bolder">Our Products</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-3">
+            <div
+              class="list-group list-group-light"
+              id="list-tab"
+              role="tablist"
+            >
+              <a
+                class="list-group-item list-group-item-action item-group active px-3 border-0"
+                id="list-product-list"
+                data-mdb-toggle="list"
+                href="#list-produc"
+                role="tab"
+                aria-controls="list-produc"
+                >Product</a
+              >
+              <a
+                class="list-group-item list-group-item-action px-3 border-0"
+                id="list-profile-list"
+                data-mdb-toggle="list"
+                href="#list-profile"
+                role="tab"
+                aria-controls="list-profile"
+                >Profile</a
+              >
+              <a
+                class="list-group-item list-group-item-action px-3 border-0"
+                id="list-cart-list"
+                data-mdb-toggle="list"
+                href="#list-cart"
+                role="tab"
+                aria-controls="list-cart"
+                >My Cart</a
+              >
+              <a
+                class="list-group-item list-group-item-action px-3 border-0"
+                id="list-settings-list"
+                data-mdb-toggle="list"
+                href="#list-settings"
+                role="tab"
+                aria-controls="list-settings"
+                >Settings</a
+              >
+            </div>
+          </div>
+          <div class="col-9">
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+              <div class="col">
+                <div class="card h-100">
+                  <img
+                    src="./assets/img/fumo1.jpg"
+                    class="card-img-top"
+                    alt="fumo1"
+                  />
+                  <div class="card-body">
+                    <h5 class="card-title fw-bolder">Reimu Hakurei</h5>
+                    <p class="card-text mt-4">
+                      Reimu Hakurei is one of the main characters in the Touhou
+                      Project game series, created by ZUN
+                    </p>
+                  </div>
+                  <div
+                    class="card-footer d-flex align-items-center justify-content-between"
+                  >
+                    <p class="fs-5 m-0">20.00$</p>
+                    <a class="btn-main btn--small" href="#">Buy</a>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="card h-100">
+                  <img
+                    src="./assets/img/fumo2.jpg"
+                    class="card-img-top"
+                    alt="fumo2"
+                  />
+                  <div class="card-body">
+                    <h5 class="card-title fw-bolder">Marisa Kirisame</h5>
+                    <p class="card-text mt-4">
+                      Marisa is a complex character with a dynamic. She has
+                      appeared in many Touhou titles and other related works.
+                    </p>
+                  </div>
+                  <div
+                    class="card-footer d-flex align-items-center justify-content-between"
+                  >
+                    <p class="fs-5 m-0">30.00$</p>
+                    <a class="btn-main btn--small" href="#">Buy</a>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="card h-100">
+                  <img
+                    src="./assets/img/fumo3.jpg"
+                    class="card-img-top"
+                    alt="fumo3"
+                  />
+                  <div class="card-body">
+                    <h5 class="card-title fw-bolder">Ibuki Suika</h5>
+                    <p class="card-text mt-4">
+                      Suika is famous for her traditional outfit including a
+                      decorative hat and gourd (porcelain bottle) for drinking
+                      wine.
+                    </p>
+                  </div>
+                  <div
+                    class="card-footer d-flex align-items-center justify-content-between"
+                  >
+                    <p class="fs-5 m-0">25.00$</p>
+                    <a class="btn-main btn--small" href="#">Buy</a>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="card h-100">
+                  <img
+                    src="./assets/img/fumo4.jpg"
+                    class="card-img-top"
+                    alt="fumo4"
+                  />
+                  <div class="card-body">
+                    <h5 class="card-title fw-bolder">Flandre Scarlet</h5>
+                    <p class="card-text mt-4">
+                      Flandre Scarlet is one of the eccentric and spooky
+                      characters in the Touhou Project series.
+                    </p>
+                  </div>
+                  <div
+                    class="card-footer d-flex align-items-center justify-content-between"
+                  >
+                    <p class="fs-5 m-0">25.00$</p>
+                    <a class="btn-main btn--small" href="#">Buy</a>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="card h-100">
+                  <img
+                    src="./assets/img/fumo5.jpg"
+                    class="card-img-top"
+                    alt="fumo5"
+                  />
+                  <div class="card-body">
+                    <h5 class="card-title fw-bolder">Remilia Scarlet</h5>
+                    <p class="card-text mt-4">
+                      She is a powerful vampire and the lord of the Scarlet
+                      Devil Mansion, an important location in the world of
+                      Gensokyo.
+                    </p>
+                  </div>
+                  <div
+                    class="card-footer d-flex align-items-center justify-content-between"
+                  >
+                    <p class="fs-5 m-0">35.00$</p>
+                    <a class="btn-main btn--small" href="#">Buy</a>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="card h-100">
+                  <img
+                    src="./assets/img/fumo6.jpg"
+                    class="card-img-top"
+                    alt="fumo6"
+                  />
+                  <div class="card-body">
+                    <h5 class="card-title fw-bolder">Yuyuko Saigyouji</h5>
+                    <p class="card-text mt-4">
+                      She is the ghost of a strong woman and her name is related
+                      to the red grass plant Saigyou Ayakashi.
+                    </p>
+                  </div>
+                  <div
+                    class="card-footer d-flex align-items-center justify-content-between"
+                  >
+                    <p class="fs-5 m-0">20.00$</p>
+                    <a class="btn-main btn--small" href="#">Buy</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
 
-            <h3>Tóm tắt đơn hàng:</h3>
-            <div id="checkoutSummary"></div>
-            <button type="submit">Xác nhận đặt hàng</button>
-        </form>
-    </section>
+    <footer
+      class="text-center text-white mt-5"
+      style="background-color: #212529"
+    >
+      <div class="container p-4">
+        <section class="">
+          <div class="row d-flex justify-content-center">
+            <div class="col-lg-6">
+              <div class="ratio ratio-16x9">
+                <iframe
+                  class="shadow-1-strong rounded"
+                  src="./assets/img/tumblr_ml7p3eAKd01s1rpd1o1_1280.gif"
+                  title="gif"
+                  allowfullscreen
+                ></iframe>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
 
-    <!-- Đăng ký -->
-    <section id="register" class="page">
-        <h2>Đăng ký</h2>
-        <form id="registerForm">
-            <input type="text" id="regUsername" placeholder="Tên đăng nhập" required>
-            <input type="password" id="regPassword" placeholder="Mật khẩu" required>
-            <button type="submit">Đăng ký</button>
-        </form>
-    </section>
+      <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
+        © 2023 Copyright: Github
+        <a class="text-white" href="https://github.com/Suzukisakae"
+          >SuzukiSakae</a
+        >
+        (Lê Thành Vinh)
+      </div>
+    </footer>
 
-    <!-- Đăng nhập -->
-    <section id="login" class="page">
-        <h2>Đăng nhập</h2>
-        <form id="loginForm">
-            <input type="text" id="username" placeholder="Tên đăng nhập" required>
-            <input type="password" id="password" placeholder="Mật khẩu" required>
-            <select id="roleSelect">
-                <option value="user">Người dùng</option>
-                <option value="admin">Quản trị viên</option>
-            </select>
-            <button type="submit">Đăng nhập</button>
-        </form>
-    </section>
-
-    <!-- Quản lý sản phẩm -->
-    <section id="adminProducts" class="page">
-        <h2>Quản lý sản phẩm</h2>
-        <form id="addProductForm">
-            <input type="text" id="newProductName" placeholder="Tên sản phẩm" required>
-            <input type="number" id="newProductPrice" placeholder="Giá" required>
-            <select id="newProductType">
-                <option value="Guitar">Guitar</option>
-                <option value="Piano">Piano</option>
-                <option value="Trống">Trống</option>
-                <option value="Violin">Violin</option>
-                <option value="Sáo">Sáo</option>
-                <option value="Harmonica">Harmonica</option>
-            </select>
-            <input type="text" id="newProductImage" placeholder="URL hình ảnh" required>
-            <textarea id="newProductDescription" placeholder="Mô tả sản phẩm"></textarea>
-            <button type="button" id="btnAddProduct">Thêm</button>
-        </form>
-        <div id="adminProductList"></div>
-    </section>
-
-    <!-- Quản lý đơn hàng -->
-    <section id="adminOrders" class="page hidden">
-        <h2>Quản lý đơn hàng</h2>
-        <table id="orderTable">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Khách hàng</th>
-                    <th>Thông tin</th>
-                    <th>Sản phẩm</th>
-                    <th>Trạng thái</th>
-                    <th>Hành động</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-    </section>
-
-
-    <!-- Quản lý người dùng -->
-    <section id="adminUsers" class="page">
-        <h2>Quản lý người dùng</h2>
-        <div id="adminUserList"></div>
-    </section>
-
-
-    <script src="script.js"></script>
-    <script src="admin.js"></script>
-    <script src="data.js"></script>
-    <script src="comments.js"></script>
-    <script src="staff.js"></script>
-    <script>
-        document.querySelectorAll('input[name="paymentMethod"]').forEach(radio => {
-            radio.addEventListener("change", () => {
-                const method = radio.value;
-                document.getElementById("bankDetails").classList.toggle("hidden", method !== "Bank");
-                document.getElementById("momoDetails").classList.toggle("hidden", method !== "MoMo");
-                document.getElementById("zalopayDetails").classList.toggle("hidden", method !== "ZaloPay");
-            });
-        });
-
-        function handleCheckout(e) {
-            e.preventDefault();
-            const name = document.getElementById("customerName").value;
-            const address = document.getElementById("customerAddress").value;
-            const phone = document.getElementById("customerPhone").value;
-            const method = document.querySelector('input[name="paymentMethod"]:checked').value;
-
-            alert(`Cảm ơn ${name}! Bạn đã chọn thanh toán bằng ${method}.`);
-            // Xử lý thêm nếu cần: gửi dữ liệu lên server, lưu localStorage, v.v.
-        }
-    </script>
-    <script>
-        // Hiển thị trang mặc định
-        showPage('home');
-
-        // Lắng nghe sự kiện click cho nút đăng ký
-        document.getElementById('registerBtn').addEventListener('click', () => {
-            showPage('register');
-        });
-
-        // Lắng nghe sự kiện click cho nút đăng nhập
-        document.getElementById('loginBtn').addEventListener('click', () => {
-            showPage('login');
-        });
-
-        // Lắng nghe sự kiện click cho nút đăng xuất
-        document.getElementById('logoutBtn').addEventListener('click', () => {
-            logout();
-        });
-        // Lắng nghe sự kiện click cho nút thêm sản phẩm
-        document.getElementById('btnAddProduct').addEventListener('click', () => {
-            const name = document.getElementById('newProductName').value;
-            const price = parseFloat(document.getElementById('newProductPrice').value);
-            const type = document.getElementById('newProductType').value;
-            const image = document.getElementById('newProductImage').value;
-            const description = document.getElementById('newProductDescription').value;
-            addProduct(name, price, type, image, description);
-        });
-    </script>
-
-</body>
-
-
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+      integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+      crossorigin="anonymous"
+    ></script>
+  </body>
 </html>
